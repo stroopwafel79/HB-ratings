@@ -49,14 +49,12 @@ def load_movies():
         current_line = row.split("|")
         # change date from a string to a datetime object
         release_date = datetime.strptime(current_line[2], "%d-%b-%Y")
-        
 
         movie = Movie(movie_id=current_line[0],
-                    title=current_line[1][0:-6],
-                    release_at=release_date,
-                    imdb_url=current_line[4])
+                      title=current_line[1][0:-6].rstrip(),
+                      release_at=release_date,
+                      imdb_url=current_line[4])
 
-        
         # We need to add to the session or it won't ever be stored
         db.session.add(movie)
 
@@ -80,14 +78,15 @@ def load_ratings():
         current_line = row.split("\t")
 
         rating = Rating(user_id=current_line[0],
-                    movie_id=current_line[1],
-                    score=current_line[2])
-        
+                        movie_id=current_line[1],
+                        score=current_line[2])
+
         # We need to add to the session or it won't ever be stored
         db.session.add(rating)
 
     # Once we're done, we should commit our work
     db.session.commit()
+
 
 def set_val_user_id():
     """Set value for the next user_id after seeding database"""

@@ -36,13 +36,13 @@ class Movie(db.Model):
 
     movie_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
-    release_at = db.Column(db.DateTime, nullable=False)
+    release_at = db.Column(db.Date, nullable=False)
     imdb_url = db.Column(db.String, nullable=False)
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return f"<Movie movie_id={self.user_id} title={self.email} release_at={self.release_at} imdb_url={self.imdb_url}>"
+        return f"<Movie movie_id={self.movie_id} title={self.title} release_at={self.release_at}>"
 
 
 class Rating(db.Model):
@@ -50,10 +50,20 @@ class Rating(db.Model):
     __tablename__ = "ratings"
 
     rating_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    movie_id = db.Column(db.Integer, nullable=False)
-    user_id = db.Column(db.Integer, nullable=False)
+    movie_id = db.Column(db.Integer, nullable=False,
+                         db.ForeignKey('movies.movie_id'))
+    user_id = db.Column(db.Integer, nullable=False
+                        db.ForeignKey('users.user_id'))
     score = db.Column(db.Integer, nullable=False)
 
+    # Define relationship to user
+    user = db.relationship("User",
+                           backref=db.backref("ratings",
+                                              order_by=rating_id))
+    # define relationship to movie
+    movie = db.relationship("Movie",
+                            backref=db.backref("ratings",
+                                               order_by=rating_id))
 
     def __repr__(self):
         """Provide helpful representation when printed."""
