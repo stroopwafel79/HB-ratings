@@ -28,6 +28,7 @@ class User(db.Model):
 
         return f"<User user_id={self.user_id} email={self.email}>"
 
+
 class Movie(db.Model):
     """Movie info"""
 
