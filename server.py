@@ -63,6 +63,15 @@ def login_user():
     return redirect("/")
 
 
+@app.route("/logout")
+def log_out():
+    """Logs user out of session."""
+
+    session.clear()
+
+    return redirect("/")
+
+
 @app.route("/register", methods=["GET"])
 def show_reg_form():
     """Displays a registration form and collects info from user."""

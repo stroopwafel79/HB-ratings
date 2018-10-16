@@ -15,6 +15,11 @@
   {% endif %}
 {% endwith %}
   Ratings
+  {% if 'user_id' in session %}
+	  <form action="/logout" method="GET">
+	  	<input type="submit" value="Log Out">
+	  </form>
+  {% endif %}
   <hr>
 
   {% block content %} put your content here {% endblock %}
