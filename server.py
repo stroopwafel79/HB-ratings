@@ -33,6 +33,32 @@ def user_list():
     return render_template("user_list.html", users=users)
 
 
+@app.route("/register", methods=["GET"])
+def show_reg_form():
+    """Displays a registration form and collects info from user."""
+
+    return render_template("register_form.html")
+
+
+@app.route("/register", methods=["POST"])
+def process_reg():
+    """Processes registration and adds user to DB."""
+    new_email = request.form.get('email')
+    pswd = request.form.get('password')
+    db_email = User.query.filter(User.email == new_email).first()
+
+    if not db_email:
+        user = User(email=new_email,
+                    password=pswd)
+        db.session.add(user)
+        db.session.commit()
+        flash('New user successfully added!')
+    else:
+        flash('Email address already exists!')
+
+    return redirect("/")
+
+
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
