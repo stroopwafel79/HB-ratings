@@ -50,9 +50,9 @@ class Rating(db.Model):
     __tablename__ = "ratings"
 
     rating_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    movie_id = db.Column(db.Integer, nullable=False,
+    movie_id = db.Column(db.Integer,
                          db.ForeignKey('movies.movie_id'))
-    user_id = db.Column(db.Integer, nullable=False
+    user_id = db.Column(db.Integer,
                         db.ForeignKey('users.user_id'))
     score = db.Column(db.Integer, nullable=False)
 
