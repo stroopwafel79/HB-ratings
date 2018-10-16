@@ -25,12 +25,42 @@ def index():
     """Homepage."""
     return render_template("homepage.html")
 
+
 @app.route("/users")
 def user_list():
     """Show list of users."""
 
     users = User.query.all()
     return render_template("user_list.html", users=users)
+
+
+@app.route("/login", methods=["GET"])
+def show_login():
+
+    return render_template("login.html")
+
+
+@app.route("/login", methods=["POST"])
+def login_user():
+
+    new_email = request.form.get('email')
+    pswd = request.form.get('password')
+    # query db for an email that matches new_email.
+    # return None if not found
+    current_user = User.query.filter(User.email == new_email).first()
+    # query db for password associated with new_email
+
+    if current_user:
+        if current_user.password == pswd:
+            # add user if to Flask session
+            session['user_id'] = current_user.user_id
+            flash('Successfully logged in!')
+        else:
+            flash('Invalid password!')
+    else:
+        flash('User not found!')
+
+    return redirect("/")
 
 
 @app.route("/register", methods=["GET"])
