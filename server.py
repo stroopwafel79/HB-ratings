@@ -42,7 +42,6 @@ def show_user_page(user_id):
     curr_user = User.query.get(user_id)
     ratings = Rating.query.filter_by(user_id=user_id).all()
 
-
     return render_template("userpage.html", curr_user=curr_user, ratings=ratings)
 
 
@@ -110,6 +109,7 @@ def process_reg():
 
     return redirect("/")
 
+
 @app.route("/movies")
 def show_movies():
     """ Show a list of movies """
@@ -117,9 +117,16 @@ def show_movies():
 
     return render_template("movie_list.html", movies=movies)
 
+
 @app.route("/movies/<movie_id>")
-def function():
-    pass
+def show_movie_details(movie_id):
+    """ Show all ratings of a given movie"""
+
+    curr_movie = Movie.query.get(movie_id)
+    ratings = Rating.query.filter_by(movie_id=movie_id).all()
+
+    return render_template("movie_details.html", ratings=ratings, curr_movie=curr_movie)
+
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
