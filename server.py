@@ -34,6 +34,18 @@ def user_list():
     return render_template("user_list.html", users=users)
 
 
+@app.route("/users/<user_id>")
+def show_user_page(user_id):
+    """Show a user info page."""
+
+    # get user info (age, zip) by user id
+    curr_user = User.query.get(user_id)
+    ratings = Rating.query.filter_by(user_id=user_id).all()
+
+
+    return render_template("userpage.html", curr_user=curr_user, ratings=ratings)
+
+
 @app.route("/login", methods=["GET"])
 def show_login():
 
