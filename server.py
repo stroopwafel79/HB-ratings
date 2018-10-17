@@ -3,7 +3,7 @@
 from jinja2 import StrictUndefined
 
 from flask import (Flask, render_template, redirect, request, flash,
-                   session)
+                   session, url_for)
 
 from model import User, Rating, Movie, connect_to_db, db
 from flask_debugtoolbar import DebugToolbarExtension
@@ -67,6 +67,7 @@ def login_user():
             # add user if to Flask session
             session['user_id'] = current_user.user_id
             flash('Successfully logged in!')
+            return redirect('/users/' + str(current_user.user_id))
         else:
             flash('Invalid password!')
     else:
