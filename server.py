@@ -110,6 +110,16 @@ def process_reg():
 
     return redirect("/")
 
+@app.route("/movies")
+def show_movies():
+    """ Show a list of movies """
+    movies = Movie.query.order_by(Movie.title).all()
+
+    return render_template("movie_list.html", movies=movies)
+
+@app.route("/movies/<movie_id>")
+def function():
+    pass
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
