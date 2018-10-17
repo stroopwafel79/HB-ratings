@@ -135,8 +135,7 @@ def add_rating():
     user_rating = request.form.get('add_rating')
     movie_id = request.form.get('movie_id')
     db_rating = Rating.query.filter((Rating.user_id == session['user_id']) &
-                                    (Rating.movie_id == movie_id) &
-                                    (Rating.score == user_rating)).first()
+                                    (Rating.movie_id == movie_id)).first()
 
     if not db_rating:
         rating = Rating(movie_id=movie_id,
@@ -147,7 +146,6 @@ def add_rating():
         flash('Rating successfully added!')
     else:
         db_rating.score = user_rating
-        db.session.add(db_rating)
         db.session.commit()
         flash('Rating updated!')
 
