@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>{{ curr_movie.title }}</h1>
-<h2>Release: {{ curr_movie.release_at }}</h2>
-<h2><a href="{{ curr_movie.imdb_url }}">IMDB</a>
+<h1>{{ movie.title }}</h1>
+<h2>Release: {{ movie.release_at }}</h2>
+<h2><a href="{{ movie.imdb_url }}">IMDB</a>
 
 <p>
 	{% if 'user_id' in session %}
@@ -15,19 +15,25 @@
 	  		<option value="4">4</option>
 	  		<option value="5">5</option>
 	  	</select>
-	  	<input type="hidden" name="movie_id" value={{ curr_movie.movie_id }}>
+	  	<input type="hidden" name="movie_id" value={{ movie.movie_id }}>
 	  	<input type="submit" value="Add Rating">
 	  </form>
   {% endif %}
+  Your Rating: {% if user_rating %}
+  				{{ user_rating.score }}
+  			   {% endif %}
 </p>
 
 <p>
 	<h2>Ratings:</h2>
-	<ul> 
-		{% for rating in ratings %}
-			<li>User ID: {{ rating.user_id }}</li>
-				<ul><li>Rating: {{ rating.score }}</li></ul>
-		{% endfor %}
-	</ul>
+	<p>Average rating: {{ average }}</p>
+	{% if prediction %}
+	    <p>We predict you will rate this movie {{ prediction }}.</p>
+	{% endif %}
+	<p>{% if beratement %}
+	    <p>{{ beratement }}.</p>
+	   {% else %}
+	    <p>The Eye is silent.</p>
+	{% endif %}</p>
 </p>
 {% endblock %}
